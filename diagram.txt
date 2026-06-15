@@ -1,0 +1,106 @@
+// ============================================================
+// Информационная система ООО 'СтройМатериалы'
+// Диаграмма базы данных для dbdiagram.io (DBML)
+// ============================================================
+
+Table roles {
+  id INT [pk, increment]
+  name VARCHAR(50) [not null, unique]
+}
+
+Table categories {
+  id INT [pk, increment]
+  name VARCHAR(150) [not null, unique]
+}
+
+Table suppliers {
+  id INT [pk, increment]
+  name VARCHAR(150) [not null, unique]
+}
+
+Table manufacturers {
+  id INT [pk, increment]
+  name VARCHAR(150) [not null, unique]
+}
+
+Table units {
+  id INT [pk, increment]
+  name VARCHAR(20) [not null, unique]
+}
+
+Table order_statuses {
+  id INT [pk, increment]
+  name VARCHAR(50) [not null, unique]
+}
+
+Table pickup_points {
+  id INT [pk, increment]
+  address TEXT [not null]
+}
+
+Table users {
+  id INT [pk, increment]
+  full_name VARCHAR(150) [not null]
+  login VARCHAR(150) [not null, unique]
+  password_hash VARCHAR(255) [not null]
+  role_id INT [not null]
+  
+  Indexes {
+    login [unique]
+  }
+}
+
+Table products {
+  id INT [pk, increment]
+  article VARCHAR(20) [not null, unique]
+  name VARCHAR(200) [not null]
+  category_id INT [not null]
+  description TEXT
+  manufacturer_id INT [not null]
+  supplier_id INT [not null]
+  unit_id INT [not null]
+  price DECIMAL(10,2) [not null]
+  stock INT [not null, default: 0]
+  discount INT [not null, default: 0]
+  photo VARCHAR(100)
+  
+  Indexes {
+    article [unique]
+  }
+}
+
+Table orders {
+  id INT [pk, increment]
+  article_code VARCHAR(30) [not null]
+  order_date DATE
+  delivery_date DATE
+  pickup_point_id INT
+  client_id INT
+  receive_code VARCHAR(20)
+  status_id INT
+}
+
+Table order_items {
+  id INT [pk, increment]
+  order_id INT [not null]
+  product_id INT [not null]
+  quantity INT [not null]
+}
+
+// ============================================================
+// Связи (Relationships)
+// ============================================================
+
+Ref: users.role_id > roles.id
+
+Ref: products.category_id > categories.id
+Ref: products.manufacturer_id > manufacturers.id
+Ref: products.supplier_id > suppliers.id
+Ref: products.unit_id > units.id
+
+Ref: orders.pickup_point_id > pickup_points.id
+Ref: orders.client_id > users.id
+Ref: orders.status_id > order_statuses.id
+
+Ref: order_items.order_id > orders.id [delete: cascade]
+Ref: order_items.product_id > products.id
