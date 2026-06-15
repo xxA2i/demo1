@@ -44,11 +44,16 @@ sudo chmod -R 755 /var/www/html/assets
 
 | Роль | Логин | Пароль |
 |------|-------|--------|
-| Администратор | `94d5ous@gmail.com` | `uzWC67` |
-| Администратор | `uth4iz@mail.com` | `2L6KZG` |
-| Менеджер | `1diph5e@tutanota.com` | `8ntwUp` |
-| Менеджер | `tjde7c@yahoo.com` | `YOyhfR` |
-| Клиент | `5d4zbu@tutanota.com` | `rwVDh9` |
-| Клиент | `ptec8ym@yahoo.com` | `LdNyos` |
+| Администратор	| Ворсин Петр Евгеньевич	| 94d5ous@gmail.com	| uzWC67
+| Администратор	| Старикова Елена Павловна	| uth4iz@mail.com	| 2L6KZG
+| Администратор	| Одинцов Серафим Артёмович	| yzls62@outlook.com	| JlFRCZ
+| Менеджер	| Степанов Михаил Артёмович	| 1diph5e@tutanota.com	| 8ntwUp
+| Менеджер	| Ворсин Петр Евгеньевич	| tjde7c@yahoo.com	| YOyhfR
+| Менеджер	| Старикова Елена Павловна	| wpmrc3do@tutanota.com	| RSbvHv
+| Авторизированный клиент	| Михайлюк Анна Вячеславовна	| 5d4zbu@tutanota.com	| rwVDh9
+| Авторизированный клиент	| Ситдикова Елена Анатольевна	| ptec8ym@yahoo.com	| LdNyos
+| Авторизированный клиент	| Никифорова Весения Николаевна	| 1qz4kw@mail.com	| gynQMT
+| Авторизированный клиент	| Сазонов Руслан Германович	| 4np6se@mail.com	| AtnDjr
+
 
 Полный список из 10 пользователей — в таблице `users`.
