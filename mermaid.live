@@ -1,0 +1,75 @@
+graph TD
+    %% Терминаторы (Начало/Конец)
+    Start([Начало]) 
+    EndSession([Конец / Выход])
+
+    %% Процессы (Действия)
+    Auth[Отображение формы авторизации]
+    SetGuest[Установка прав доступа: Гость]
+    CheckDB[Запрос к БД: поиск логина и проверка хэша]
+    SetRole[Установка прав доступа по роли из БД]
+    Dashboard[Загрузка панели управления]
+    LoadData[Формирование SQL-запроса товаров]
+    ApplyFilters[Применение параметров фильтрации и сортировки к запросу]
+    SaveDB[Сохранение или Обновление данных в БД]
+    DeleteItem[Удаление записи из БД]
+    Form[Отображение формы добавления/редактирования]
+
+    %% Ввод/Вывод
+    Input[/Ввод: Логин и Пароль или выбор 'Гость'/]
+    ShowError[/Вывод сообщения об ошибке/]
+    RenderTable[/Вывод отфильтрованной таблицы товаров/]
+    UserAction[/Ввод: Действие пользователя/]
+    InputData[/Ввод: Данные объекта из формы/]
+    ShowFormError[/Вывод сообщения об ошибке валидации/]
+
+    %% Условия
+    IsGuest{Вход как<br>гость?}
+    IsValid{Учетные<br>данные верны?}
+    CheckFilters{Заданы<br>фильтры/поиск?}
+    ActionType{Какое<br>действие?}
+    Validate{Данные<br>в форме<br>корректны?}
+
+    %% Связи алгоритма
+    Start --> Auth
+    Auth --> Input
+    Input --> IsGuest
+    
+    IsGuest -- Да --> SetGuest
+    SetGuest --> Dashboard
+    
+    IsGuest -- Нет --> CheckDB
+    CheckDB --> IsValid
+    
+    IsValid -- Нет --> ShowError
+    ShowError --> Auth
+    
+    IsValid -- Да --> SetRole
+    SetRole --> Dashboard
+    
+    Dashboard --> LoadData
+    LoadData --> CheckFilters
+    
+    CheckFilters -- Да --> ApplyFilters
+    ApplyFilters --> RenderTable
+    
+    CheckFilters -- Нет --> RenderTable
+    RenderTable --> UserAction
+    
+    UserAction --> ActionType
+    
+    ActionType -- Изменение фильтров/поиска --> Dashboard
+    
+    ActionType -- Добавление / Редактирование --> Form
+    Form --> InputData
+    InputData --> Validate
+    Validate -- Нет --> ShowFormError
+    ShowFormError --> Form
+    Validate -- Да --> SaveDB
+    SaveDB --> Dashboard
+    
+    ActionType -- Удаление --> DeleteItem
+    DeleteItem --> Dashboard
+    
+    ActionType -- Выход из профиля --> EndSession
+    EndSession --> Start
