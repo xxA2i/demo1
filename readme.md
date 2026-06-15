@@ -42,7 +42,7 @@ sudo chown -R www-data:www-data /var/www/html/assets/photos
 sudo chmod -R 755 /var/www/html/assets
 ```
 
-| Роль | Логин | Пароль |
+| Роль | Полное имя | Логин | Пароль |
 |------|-------|--------|
 | Администратор	| Ворсин Петр Евгеньевич	| 94d5ous@gmail.com	| uzWC67
 | Администратор	| Старикова Елена Павловна	| uth4iz@mail.com	| 2L6KZG
