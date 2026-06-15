@@ -1,0 +1,185 @@
+/* style.css - оформление системы "СтройМатериалы".
+   Палитра по руководству по стилю:
+     фон белый, доп.фон #DAA520, акцент #B8860B,
+     подсветка скидки >12% - #F4A460, нет на складе - голубой. */
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: Calibri, "Segoe UI", Arial, sans-serif;
+    background: #ffffff;
+    color: #222;
+    line-height: 1.45;
+}
+
+/* Верхняя панель */
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #DAA520;
+    padding: 8px 20px;
+    color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,.15);
+}
+.topbar-left, .topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.brand { font-weight: bold; font-size: 18px; }
+.logo-sm { height: 32px; width: auto; }
+.user-fio { font-weight: bold; }
+
+/* Контейнер содержимого */
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 16px 40px;
+}
+
+h1 {
+    color: #B8860B;
+    border-bottom: 2px solid #DAA520;
+    padding-bottom: 6px;
+}
+h2 { color: #8a6a0a; }
+.subtitle { color: #666; }
+
+/* Кнопки */
+.btn {
+    display: inline-block;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 15px;
+    text-decoration: none;
+    color: #fff;
+}
+.btn-accent   { background: #B8860B; }
+.btn-accent:hover { background: #9a7309; }
+.btn-secondary{ background: #7a7a7a; }
+.btn-secondary:hover { background: #5f5f5f; }
+.btn-danger   { background: #c0392b; }
+.btn-danger:hover { background: #9e2d22; }
+.btn-sm { padding: 4px 10px; font-size: 13px; }
+
+/* Страница авторизации */
+.auth-body {
+    background: #f3eee0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.auth-card {
+    background: #fff;
+    padding: 30px 36px;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0,0,0,.12);
+    width: 360px;
+    text-align: center;
+}
+.auth-card .logo { height: 80px; margin-bottom: 10px; }
+.auth-form { display: flex; flex-direction: column; gap: 12px; text-align: left; margin-top: 16px; }
+.auth-form label { font-weight: bold; }
+.auth-form input { width: 100%; padding: 8px; margin-top: 4px; border: 1px solid #ccc; border-radius: 4px; }
+.hint { color: #888; font-size: 13px; }
+
+/* Таблицы */
+table.products {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    background: #fff;
+}
+table.products th, table.products td {
+    border: 1px solid #e0e0e0;
+    padding: 8px 10px;
+    text-align: left;
+    vertical-align: top;
+    font-size: 14px;
+}
+table.products thead th {
+    background: #DAA520;
+    color: #fff;
+    font-weight: bold;
+}
+table.products tbody tr:nth-child(even) { background: #faf6ea; }
+.empty { text-align: center; color: #888; padding: 20px; }
+
+/* Колонки */
+.thumb { width: 50px; height: 40px; object-fit: cover; border-radius: 3px; }
+.descr { max-width: 280px; font-size: 13px; }
+.actions { white-space: nowrap; }
+
+/* Подсветка строк по условиям задания */
+.row-discount { background: #F4A460 !important; } /* скидка > 12% */
+.row-out { background: #cfe8f5 !important; }       /* нет на складе - голубой */
+
+/* Цена: старая зачёркнута красным, новая - чёрным */
+.price-old { text-decoration: line-through; color: #c0392b; }
+.price-new { color: #000; font-weight: bold; margin-left: 6px; }
+
+/* Фильтры */
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 12px 0;
+    align-items: center;
+}
+.filters input[type=text], .filters select {
+    padding: 7px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 14px;
+}
+.filters input[type=text] { min-width: 200px; }
+
+/* Формы */
+.form-card {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-width: 640px;
+    background: #faf6ea;
+    padding: 20px;
+    border-radius: 6px;
+    border: 1px solid #e6dcc0;
+}
+.form-card label { font-weight: bold; display: flex; flex-direction: column; gap: 4px; font-size: 14px; }
+.form-card input, .form-card select, .form-card textarea {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: inherit;
+}
+.form-row { display: flex; gap: 14px; }
+.form-row label { flex: 1; }
+.form-actions { display: flex; gap: 10px; margin-top: 6px; }
+
+/* Сообщения обратной связи */
+.msg {
+    padding: 10px 16px;
+    border-radius: 4px;
+    margin: 12px 0;
+    border: 1px solid transparent;
+}
+.msg-info  { background: #e7f3fe; border-color: #b6d4fe; color: #084298; }
+.msg-error { background: #fdecea; border-color: #f5c2c7; color: #842029; }
+
+.section-title { margin-top: 40px; }
+.footer-link { margin-top: 30px; }
+.footer-link a { color: #B8860B; font-weight: bold; }
+
+/* Руководство */
+.manual { max-width: 860px; }
+.manual code { background: #f0ead6; padding: 1px 5px; border-radius: 3px; }
+.manual ol, .manual ul { line-height: 1.7; }
+.badge-discount { background: #F4A460; padding: 1px 6px; border-radius: 3px; color: #000; }
+.badge-out { background: #cfe8f5; padding: 1px 6px; border-radius: 3px; color: #000; }
