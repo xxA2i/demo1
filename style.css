@@ -140,6 +140,7 @@ table.products tbody tr:nth-child(even) { background: #faf6ea; }
     font-size: 14px;
 }
 .filters input[type=text] { min-width: 200px; }
+.filter-status { color: #888; font-size: 13px; min-width: 90px; }
 
 /* Формы */
 .form-card {
