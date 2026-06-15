@@ -60,16 +60,16 @@ function buildProductQuery(mysqli $conn, array $in): array {
     return $products;
 }
 
-// Рендер строк <tr> таблицы товаров (используется в AJAX и при первой отрисовке).
+// Рендер карточек товаров (используется в AJAX и при первой отрисовке).
 function renderProductRows(array $products, string $role): string {
     $html = '';
     foreach ($products as $p) {
         // Подсветка строки в зависимости от скидки и остатка.
-        $rowClass = '';
+        $rowClass = 'product-card';
         if ((int)$p['stock'] === 0) {
-            $rowClass = 'row-out';
+            $rowClass .= ' row-out';
         } elseif ((int)$p['discount'] > 12) {
-            $rowClass = 'row-discount';
+            $rowClass .= ' row-discount';
         }
         $discounted = (int)$p['discount'] > 0;
         $finalPrice = $discounted
@@ -80,35 +80,48 @@ function renderProductRows(array $products, string $role): string {
             ? 'assets/photos/' . $p['photo']
             : 'assets/picture.png';
 
-        $html .= '<tr class="' . $rowClass . '">';
-        $html .= '<td><img src="' . e($photo) . '" alt="" class="thumb" onerror="this.src=\'assets/picture.png\'"></td>';
-        $html .= '<td>' . e($p['name']) . '</td>';
-        $html .= '<td>' . e($p['category_name']) . '</td>';
-        $html .= '<td class="descr">' . e($p['description']) . '</td>';
-        $html .= '<td>' . e($p['manufacturer_name']) . '</td>';
-        $html .= '<td>' . e($p['supplier_name']) . '</td>';
-        $html .= '<td class="price-cell">';
+        $html .= '<div class="' . $rowClass . '">';
+        
+        // Слева: Фото
+        $html .= '<div class="card-left">';
+        $html .= '<img src="' . e($photo) . '" alt="" class="product-image" onerror="this.src=\'assets/picture.png\'">';
+        $html .= '</div>';
+
+        // Посередине: Инфо
+        $html .= '<div class="card-middle">';
+        $html .= '<div class="product-title">' . e($p['category_name']) . ' | <strong>' . e($p['name']) . '</strong></div>';
+        $html .= '<div class="product-desc">' . e($p['description']) . '</div>';
+        $html .= '<div class="product-details">';
+        $html .= '<p><strong>Производитель:</strong> ' . e($p['manufacturer_name']) . '</p>';
+        $html .= '<p><strong>Поставщик:</strong> ' . e($p['supplier_name']) . '</p>';
+        $html .= '<p><strong>Цена:</strong> ';
         if ($discounted) {
-            $html .= '<span class="price-old">' . e($p['price']) . '</span>';
-            $html .= '<span class="price-new">' . e($finalPrice) . '</span>';
+            $html .= '<span class="price-old">' . e($p['price']) . '</span> <span class="price-new">' . e($finalPrice) . '</span>';
         } else {
             $html .= e($p['price']);
         }
-        $html .= '</td>';
-        $html .= '<td>' . e($p['unit_name']) . '</td>';
-        $html .= '<td>' . (int)$p['stock'] . '</td>';
-        $html .= '<td>' . (int)$p['discount'] . '%</td>';
-        if ($role === 'admin') {
-            $html .= '<td class="actions">';
-            $html .= '<a class="btn btn-secondary btn-sm" href="product_form.php?id=' . (int)$p['id'] . '">Изменить</a> ';
-            $html .= '<a class="btn btn-danger btn-sm" href="product_delete.php?id=' . (int)$p['id'] . '" onclick="return confirm(\'Удалить товар?\')">Удалить</a>';
-            $html .= '</td>';
+        $html .= '</p>';
+        $html .= '<p><strong>Единица измерения:</strong> ' . e($p['unit_name']) . '</p>';
+        $html .= '<p><strong>Количество на складе:</strong> ' . (int)$p['stock'] . '</p>';
+        $html .= '</div>';
+        $html .= '</div>';
+
+        // Справа: Скидка и действия
+        $html .= '<div class="card-right">';
+        if ($discounted) {
+            $html .= '<div class="product-discount">Скидка<br><strong>' . (int)$p['discount'] . '%</strong></div>';
         }
-        $html .= '</tr>';
+        if ($role === 'admin') {
+            $html .= '<div class="actions card-actions">';
+            $html .= '<a class="btn btn-secondary btn-sm" href="product_form.php?id=' . (int)$p['id'] . '">Изменить</a>';
+            $html .= '<a class="btn btn-danger btn-sm" href="product_delete.php?id=' . (int)$p['id'] . '" onclick="return confirm(\'Удалить товар?\')">Удалить</a>';
+            $html .= '</div>';
+        }
+        $html .= '</div>';
+        $html .= '</div>';
     }
     if (!$products) {
-        $colspan = $role === 'admin' ? 11 : 10;
-        $html .= '<tr><td colspan="' . $colspan . '" class="empty">Товары не найдены.</td></tr>';
+        $html .= '<div class="empty">Товары не найдены.</div>';
     }
     return $html;
 }

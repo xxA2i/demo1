@@ -137,28 +137,11 @@ unset($_SESSION['msg']);
         <p><a class="btn btn-accent" href="product_form.php">Добавить товар</a></p>
     <?php endif; ?>
 
-    <!-- Таблица товаров с подсветкой строк по условиям задания. -->
-    <table class="products">
-        <thead>
-            <tr>
-                <th>Фото</th>
-                <th>Наименование</th>
-                <th>Категория</th>
-                <th>Описание</th>
-                <th>Производитель</th>
-                <th>Поставщик</th>
-                <th>Цена</th>
-                <th>Ед. изм.</th>
-                <th>Кол-во</th>
-                <th>Скидка</th>
-                <?php if ($role === 'admin'): ?><th>Действия</th><?php endif; ?>
-            </tr>
-        </thead>
-        <tbody id="productBody">
-        <?php // Строки рендерятся общей функцией (используется и в AJAX). ?>
+    <!-- Карточки товаров с подсветкой по условиям задания. -->
+    <div class="products-grid" id="productBody">
+        <?php // Карточки рендерятся общей функцией (используется и в AJAX). ?>
         <?= renderProductRows($products, $role) ?>
-        </tbody>
-    </table>
+    </div>
 
     <!-- ЗАКАЗЫ: только менеджер и администратор. -->
     <?php if ($role === 'manager' || $role === 'admin'): ?>
@@ -178,42 +161,40 @@ unset($_SESSION['msg']);
         );
         $orders = $ores->fetch_all(MYSQLI_ASSOC);
         ?>
-        <table class="products">
-            <thead>
-                <tr>
-                    <th>Артикул</th>
-                    <th>Статус</th>
-                    <th>Пункт выдачи</th>
-                    <th>Дата заказа</th>
-                    <th>Дата выдачи</th>
-                    <?php if ($role === 'admin'): ?><th>Действия</th><?php endif; ?>
-                </tr>
-            </thead>
-            <tbody>
+        <div class="orders-grid">
             <?php foreach ($orders as $o): ?>
-                <tr>
-                    <td><?= e($o['article_code']) ?></td>
-                    <td><?= e($o['status']) ?></td>
-                    <td><?= e($o['pickup']) ?></td>
-                    <td><?= e($o['order_date']) ?></td>
-                    <td><?= e($o['delivery_date']) ?></td>
-                    <?php if ($role === 'admin'): ?>
-                    <td class="actions">
-                        <a class="btn btn-secondary btn-sm" href="order_form.php?id=<?= (int)$o['id'] ?>">Изменить</a>
-                        <a class="btn btn-danger btn-sm" href="order_delete.php?id=<?= (int)$o['id'] ?>"
-                           onclick="return confirm('Удалить заказ?')">Удалить</a>
-                    </td>
-                    <?php endif; ?>
-                </tr>
+                <div class="order-card">
+                    <div class="card-left">
+                        <div class="order-article">Артикул: <?= e($o['article_code']) ?></div>
+                        <div class="order-details">
+                            <p><strong>Статус:</strong> <?= e($o['status']) ?></p>
+                            <p><strong>Адрес пункта выдачи:</strong> <?= e($o['pickup']) ?></p>
+                            <p><strong>Дата заказа:</strong> <?= e($o['order_date']) ?></p>
+                        </div>
+                    </div>
+                    <div class="card-right">
+                        <div class="order-delivery">
+                            <small>Дата доставки:</small>
+                            <br>
+                            <strong><?= e($o['delivery_date']) ?></strong>
+                        </div>
+                        <?php if ($role === 'admin'): ?>
+                        <div class="actions">
+                            <a class="btn btn-secondary btn-sm" href="order_form.php?id=<?= (int)$o['id'] ?>">Изменить</a>
+                            <a class="btn btn-danger btn-sm" href="order_delete.php?id=<?= (int)$o['id'] ?>"
+                               onclick="return confirm('Удалить заказ?')">Удалить</a>
+                        </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
             <?php endforeach; ?>
             <?php if (!$orders): ?>
-                <tr><td colspan="<?= $role === 'admin' ? 6 : 5 ?>" class="empty">Заказов нет.</td></tr>
+                <div class="empty">Заказов нет.</div>
             <?php endif; ?>
-            </tbody>
-        </table>
+        </div>
     <?php endif; ?>
 
-    <p class="footer-link"><a href="manual.php">Руководство пользователя</a></p>
+
 </div>
 </body>
 </html>
