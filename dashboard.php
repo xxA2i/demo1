@@ -179,7 +179,7 @@ unset($_SESSION['msg']);
                             <strong><?= e($o['delivery_date']) ?></strong>
                         </div>
                         <?php if ($role === 'admin'): ?>
-                        <div class="actions">
+                        <div class="actions card-actions">
                             <a class="btn btn-secondary btn-sm" href="order_form.php?id=<?= (int)$o['id'] ?>">Изменить</a>
                             <a class="btn btn-danger btn-sm" href="order_delete.php?id=<?= (int)$o['id'] ?>"
                                onclick="return confirm('Удалить заказ?')">Удалить</a>

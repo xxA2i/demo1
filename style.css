@@ -213,8 +213,8 @@ table.products tbody tr:nth-child(even) { background: #faf6ea; }
 }
 
 .product-image {
-    width: 150px;
-    height: 100px;
+    width: 300px;
+    height: 200px;
     object-fit: cover;
     border-radius: 6px;
     border: 1px solid #eee;
@@ -250,16 +250,28 @@ table.products tbody tr:nth-child(even) { background: #faf6ea; }
     margin: 0;
 }
 
+.product-details-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 14px;
+}
+
+.product-details-stack p {
+    margin: 0;
+}
+
 .card-right {
     flex: 0 0 160px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-end;
-    text-align: right;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     border-left: 1px solid #eee;
     padding-left: 16px;
     margin-left: 16px;
+    gap: 16px;
 }
 
 .product-discount {

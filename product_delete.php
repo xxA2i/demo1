@@ -32,8 +32,12 @@ $stmt->bind_param('i', $id);
 $stmt->execute();
 $photo = $stmt->get_result()->fetch_assoc()['photo'] ?? null;
 $stmt->close();
-if ($photo && file_exists(__DIR__ . '/assets/photos/' . $photo)) {
-    unlink(__DIR__ . '/assets/photos/' . $photo);
+
+if ($photo) {
+    $photoPath = (strpos($photo, 'assets/photos/') === 0) ? $photo : 'assets/photos/' . $photo;
+    if (file_exists(__DIR__ . '/' . $photoPath)) {
+        unlink(__DIR__ . '/' . $photoPath);
+    }
 }
 
 // Удаление записи товара.

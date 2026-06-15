@@ -76,8 +76,11 @@ function renderProductRows(array $products, string $role): string {
             ? round($p['price'] * (100 - $p['discount']) / 100, 2)
             : (float)$p['price'];
 
-        $photo = $p['photo'] && file_exists(__DIR__ . '/assets/photos/' . $p['photo'])
-            ? 'assets/photos/' . $p['photo']
+        $photoField = $p['photo'] ?? '';
+        $photoPath = (strpos($photoField, 'assets/photos/') === 0) ? $photoField : 'assets/photos/' . $photoField;
+
+        $photo = $photoField && file_exists(__DIR__ . '/' . $photoPath)
+            ? $photoPath
             : 'assets/picture.png';
 
         $html .= '<div class="' . $rowClass . '">';
@@ -90,8 +93,8 @@ function renderProductRows(array $products, string $role): string {
         // Посередине: Инфо
         $html .= '<div class="card-middle">';
         $html .= '<div class="product-title">' . e($p['category_name']) . ' | <strong>' . e($p['name']) . '</strong></div>';
-        $html .= '<div class="product-desc">' . e($p['description']) . '</div>';
-        $html .= '<div class="product-details">';
+        $html .= '<div class="product-details-stack">';
+        $html .= '<p><strong>Описание товара:</strong> ' . e($p['description']) . '</p>';
         $html .= '<p><strong>Производитель:</strong> ' . e($p['manufacturer_name']) . '</p>';
         $html .= '<p><strong>Поставщик:</strong> ' . e($p['supplier_name']) . '</p>';
         $html .= '<p><strong>Цена:</strong> ';
@@ -109,7 +112,7 @@ function renderProductRows(array $products, string $role): string {
         // Справа: Скидка и действия
         $html .= '<div class="card-right">';
         if ($discounted) {
-            $html .= '<div class="product-discount">Скидка<br><strong>' . (int)$p['discount'] . '%</strong></div>';
+            $html .= '<div class="product-discount">Действующая скидка:<br><strong>' . (int)$p['discount'] . '%</strong></div>';
         }
         if ($role === 'admin') {
             $html .= '<div class="actions card-actions">';

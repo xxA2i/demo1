@@ -74,14 +74,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if (!in_array($ext, ['jpg', 'jpeg', 'png', 'gif'])) {
                     $error = 'Допустимые форматы: jpg, png, gif.';
                 } else {
-                    $photoName = uniqid('img_', true) . '.' . $ext;
-                    $dest = __DIR__ . '/assets/photos/' . $photoName;
+                    $fileName = uniqid('img_', true) . '.' . $ext;
+                    $photoPath = 'assets/photos/' . $fileName;
+                    $dest = __DIR__ . '/' . $photoPath;
                     move_uploaded_file($tmp, $dest);
                     // При замене фото - удаляем старое из папки.
-                    if (!empty($product['photo']) && $product['photo'] !== $photoName
-                        && file_exists(__DIR__ . '/assets/photos/' . $product['photo'])) {
-                        unlink(__DIR__ . '/assets/photos/' . $product['photo']);
+                    if (!empty($product['photo']) && $product['photo'] !== $photoPath
+                        && file_exists(__DIR__ . '/' . $product['photo'])) {
+                        unlink(__DIR__ . '/' . $product['photo']);
                     }
+                    $photoName = $photoPath;
                 }
             }
         }
